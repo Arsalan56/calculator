@@ -16,3 +16,19 @@ const operate = (op, a, b) => {
             return div(a, b);
     }
 }
+
+let output = document.querySelector('.output');
+function display(n) {
+    if (n =='+' || n =='-' || n =='*' || n =='/') {
+        output.textContent += ` ${n} `
+    } else {
+    output.textContent += n;
+    }
+}
+
+let btns = document.querySelectorAll('.btn');
+btns.forEach(btn => btn.addEventListener('click', () => display(btn.textContent)));
+
+let clear = document.querySelector('.clear');
+clear.addEventListener('click', () => output.textContent = '');
+
