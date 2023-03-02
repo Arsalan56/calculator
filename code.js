@@ -1,3 +1,5 @@
+let nums = []
+
 const add = (a, b) => a + b;
 const sub = (a, b) => a - b;
 const mult = (a, b) => a * b;
@@ -19,16 +21,17 @@ const operate = (op, a, b) => {
 
 let output = document.querySelector('.output');
 function display(n) {
-    if (n =='+' || n =='-' || n =='*' || n =='/') {
-        output.textContent += ` ${n} `
-    } else {
     output.textContent += n;
-    }
 }
 
-let btns = document.querySelectorAll('.btn');
-btns.forEach(btn => btn.addEventListener('click', () => display(btn.textContent)));
+let num = document.querySelectorAll('.num');
+num.forEach(num => num.addEventListener('click', () => display(num.textContent)));
 
 let clear = document.querySelector('.clear');
 clear.addEventListener('click', () => output.textContent = '');
 
+let ops = document.querySelectorAll('.op');
+ops.forEach(op => op.addEventListener('click', () => {
+    nums.push(output.textContent);
+    output.textContent = '';
+}))
