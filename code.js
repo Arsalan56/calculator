@@ -14,7 +14,7 @@ const sub = (a, b) => a - b;
 const mult = (a, b) => a * b;
 const div = (a, b) => a/b;
 
-// Takes in operator and two numbers
+// Takes in operator and two numbers, returns result
 const operate = (op, a, b) => {
     switch(op) {
         case '+':
@@ -32,6 +32,7 @@ function display(n) {
     output.textContent += n;
 }
 
+// code that makes number buttons work properly
 let num = document.querySelectorAll('.num');
 num.forEach(num => num.addEventListener('click', () => {
     if (clearFirst == true) output.textContent = '';
@@ -39,6 +40,7 @@ num.forEach(num => num.addEventListener('click', () => {
     display(num.textContent)
 }));
 
+// code that makes AC button work
 let clear = document.querySelector('.clear');
 clear.addEventListener('click', () => {
     nums = [];
@@ -47,6 +49,7 @@ clear.addEventListener('click', () => {
     clearFirst = false;
 });
 
+// code that makes operation buttons work properly
 let ops = document.querySelectorAll('.op');
 ops.forEach(op => op.addEventListener('click', () => {
     operators.push(op.textContent)
@@ -54,22 +57,30 @@ ops.forEach(op => op.addEventListener('click', () => {
     output.textContent = '';
     if (nums.length >= 2) {
         solve()
-        nums.append(output.textContent);
+        nums.push(parseInt(output.textContent));
     };
-    console.log(operators);
-    console.log(nums);
+
+    if (output.textContent == 'NaN') {
+        output.textContent = 'ERROR!';
+        nums.splice(0, nums.length);
+        operators.splice(0, operators.length);
+    }
 }))
 
+// code that makes equal sign work properly
 let equal = document.querySelector('.equal');
 equal.addEventListener('click', () => {
     nums.push(parseInt(output.textContent));
-    solve();
+    if (nums.length >= 2) {
+        solve()
+    } else {
+        nums.pop();
+    }
 })
 
 function solve () {
     output.textContent = operate(operators[0], nums[0], nums[1]);
-    console.log(operators, nums);
     operators.splice(0, 1);
-    nums.splice(0, 2)
+    nums.splice(0, nums.length);
     clearFirst = true;
 }
