@@ -35,11 +35,17 @@ function display(n) {
 let num = document.querySelectorAll('.num');
 num.forEach(num => num.addEventListener('click', () => {
     if (clearFirst == true) output.textContent = '';
+    clearFirst = false;
     display(num.textContent)
 }));
 
 let clear = document.querySelector('.clear');
-clear.addEventListener('click', () => output.textContent = '');
+clear.addEventListener('click', () => {
+    nums = [];
+    operators = [];
+    output.textContent = '';
+    clearFirst = false;
+});
 
 let ops = document.querySelectorAll('.op');
 ops.forEach(op => op.addEventListener('click', () => {
@@ -47,12 +53,23 @@ ops.forEach(op => op.addEventListener('click', () => {
     nums.push(parseInt(output.textContent));
     output.textContent = '';
     if (nums.length >= 2) {
-        output.textContent = operate(operators[0], nums[0], nums[1]);
-        operators.splice(0, 1);
-        nums.splice(0, 2);
-        nums.push(parseInt(output.textContent));
-        clearFirst = true;
-    }
-    console.log(nums);
+        solve()
+        nums.append(output.textContent);
+    };
     console.log(operators);
+    console.log(nums);
 }))
+
+let equal = document.querySelector('.equal');
+equal.addEventListener('click', () => {
+    nums.push(parseInt(output.textContent));
+    solve();
+})
+
+function solve () {
+    output.textContent = operate(operators[0], nums[0], nums[1]);
+    console.log(operators, nums);
+    operators.splice(0, 1);
+    nums.splice(0, 2)
+    clearFirst = true;
+}
