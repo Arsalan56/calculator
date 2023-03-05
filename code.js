@@ -24,6 +24,11 @@ const operate = (op, a, b) => {
         case '*':
             return mult(a, b);
         case '/':
+            if (b == 0) {
+                nums = [];
+                operators = [];
+                return 'ERROR!'
+            }
             return div(a, b);
     }
 }
@@ -84,3 +89,15 @@ function solve () {
     nums.splice(0, nums.length);
     clearFirst = true;
 }
+
+let negate = document.querySelector('.negate');
+negate.addEventListener('click', () => {
+    let num = output.textContent;
+    if (num[0] == '-') {
+        let arr = [...num];
+        arr.splice(0, 1);
+        output.textContent = arr.join('');
+    } else {
+        output.textContent = `-${num}`;
+    }
+})
