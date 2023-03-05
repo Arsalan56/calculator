@@ -64,7 +64,7 @@ ops.forEach(op => op.addEventListener('click', () => {
         solve()
         nums.push(parseInt(output.textContent));
     };
-
+    // If an error occurs, output error instead of NaN
     if (output.textContent == 'NaN') {
         output.textContent = 'ERROR!';
         nums.splice(0, nums.length);
@@ -82,7 +82,7 @@ equal.addEventListener('click', () => {
         nums.pop();
     }
 })
-
+// Function to solve numbers 
 function solve () {
     output.textContent = operate(operators[0], nums[0], nums[1]);
     operators.splice(0, 1);
@@ -90,6 +90,7 @@ function solve () {
     clearFirst = true;
 }
 
+// Event handler for negate button
 let negate = document.querySelector('.negate');
 negate.addEventListener('click', () => {
     let num = output.textContent;
@@ -100,4 +101,13 @@ negate.addEventListener('click', () => {
     } else {
         output.textContent = `-${num}`;
     }
+})
+
+// Event handler for delete button
+let del = document.querySelector('.del');
+del.addEventListener('click', () => {
+    let num = output.textContent;
+    let arr = [...num];
+    arr.pop();
+    output.textContent = arr.join('');
 })
