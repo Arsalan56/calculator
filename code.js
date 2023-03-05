@@ -1,6 +1,10 @@
 // Define the variables that store the numbers and operators
 let nums = []
 let operators = []
+
+
+let deciHolder = true;
+
 // Variable that keeps track when to clear output. Used in 
 // long/complex equations
 let clearFirst = false
@@ -33,16 +37,12 @@ const operate = (op, a, b) => {
     }
 }
 
-function display(n) {
-    output.textContent += n;
-}
-
 // code that makes number buttons work properly
 let num = document.querySelectorAll('.num');
 num.forEach(num => num.addEventListener('click', () => {
     if (clearFirst == true) output.textContent = '';
     clearFirst = false;
-    display(num.textContent)
+    output.textContent += num.textContent;
 }));
 
 // code that makes AC button work
@@ -57,12 +57,13 @@ clear.addEventListener('click', () => {
 // code that makes operation buttons work properly
 let ops = document.querySelectorAll('.op');
 ops.forEach(op => op.addEventListener('click', () => {
+    deciHolder = true;
     operators.push(op.textContent)
-    nums.push(parseInt(output.textContent));
+    nums.push(parseFloat(output.textContent));
     output.textContent = '';
     if (nums.length >= 2) {
         solve()
-        nums.push(parseInt(output.textContent));
+        nums.push(parseFloat(output.textContent));
     };
     // If an error occurs, output error instead of NaN
     if (output.textContent == 'NaN') {
@@ -75,16 +76,17 @@ ops.forEach(op => op.addEventListener('click', () => {
 // code that makes equal sign work properly
 let equal = document.querySelector('.equal');
 equal.addEventListener('click', () => {
-    nums.push(parseInt(output.textContent));
+    nums.push(parseFloat(output.textContent));
     if (nums.length >= 2) {
         solve()
+        deciHolder = true; // fix
     } else {
         nums.pop();
     }
 })
 // Function to solve numbers 
 function solve () {
-    output.textContent = operate(operators[0], nums[0], nums[1]);
+    output.textContent = operate(operators[0], nums[0], nums[1]).toFixed(10);
     operators.splice(0, 1);
     nums.splice(0, nums.length);
     clearFirst = true;
@@ -110,4 +112,13 @@ del.addEventListener('click', () => {
     let arr = [...num];
     arr.pop();
     output.textContent = arr.join('');
+})
+
+// Event handler for decimal button
+let deci = document.querySelector('.deci');
+deci.addEventListener('click', () => {
+    if (deciHolder == true) {
+        output.textContent = `${output.textContent}.`;
+        deciHolder = false;
+    }
 })
