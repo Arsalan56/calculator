@@ -2,9 +2,6 @@
 let nums = []
 let operators = []
 
-
-let deciHolder = true;
-
 // Variable that keeps track when to clear output. Used in 
 // long/complex equations
 let clearFirst = true;
@@ -62,7 +59,6 @@ let clear = document.querySelector('.clear');
 clear.addEventListener('click', clearAll);
 
 function opsFunc (oper) {
-    deciHolder = true;
     nums.push(parseFloat(output.textContent));
     output.textContent = '';
     if (nums.length >= 2) {
@@ -87,7 +83,6 @@ function equalFunc () {
     nums.push(parseFloat(output.textContent));
     if (nums.length >= 2) {
         solve()
-        deciHolder = true; // fix
     } else {
         nums.pop();
     }
@@ -131,9 +126,9 @@ del.addEventListener('click', () => {
 // Event handler for decimal button
 let deci = document.querySelector('.deci');
 deci.addEventListener('click', () => {
-    if (deciHolder == true) {
+    let out = [...output.textContent];
+    if (out.indexOf('.') < 0) {
         output.textContent = `${output.textContent}.`;
-        deciHolder = false;
     }
 })
 
@@ -150,5 +145,10 @@ window.addEventListener('keydown', e => {
         opsFunc(opsList.indexOf(key));
     } else if (key == '=' || key == 'Enter') {
         equalFunc();
+    } else if (key == '.') {
+        let out = [...output.textContent];
+        if (out.indexOf('.') < 0) {
+            output.textContent = `${output.textContent}.`;
+        }
     }
 })
