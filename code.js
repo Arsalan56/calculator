@@ -83,9 +83,7 @@ ops.forEach(op => op.addEventListener('click', () => {
     opsFunc(op);
 }))
 
-// code that makes equal sign work properly
-let equal = document.querySelector('.equal');
-equal.addEventListener('click', () => {
+function equalFunc () {
     nums.push(parseFloat(output.textContent));
     if (nums.length >= 2) {
         solve()
@@ -93,7 +91,11 @@ equal.addEventListener('click', () => {
     } else {
         nums.pop();
     }
-})
+}
+
+// code that makes equal sign work properly
+let equal = document.querySelector('.equal');
+equal.addEventListener('click', equalFunc)
 // Function to solve numbers 
 function solve () {
     out = operate(operators[0], nums[0], nums[1]);
@@ -141,11 +143,12 @@ window.addEventListener('keydown', e => {
         if (clearFirst == true) output.textContent = '';
         clearFirst = false;
         output.textContent += key;
-    } else if (key == 'Backspace') {
+    } else if (key == 'Backspace' || key == 'a') {
         clearAll();
     } else if (opsList.indexOf(key) >= 0) {
         operators.push(opsList[opsList.indexOf(key)]);
         opsFunc(opsList.indexOf(key));
+    } else if (key == '=' || key == 'Enter') {
+        equalFunc();
     }
-    
 })
