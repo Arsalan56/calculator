@@ -7,7 +7,7 @@ let deciHolder = true;
 
 // Variable that keeps track when to clear output. Used in 
 // long/complex equations
-let clearFirst = false
+let clearFirst = true;
 
 // Select box that displays answer. Will be used multiple times
 // Throughout the project
@@ -37,6 +37,11 @@ const operate = (op, a, b) => {
     }
 }
 
+const numFunc = () => {
+    if (clearFirst == true) output.textContent = '';
+    clearFirst = false;
+    output.textContent += num.textContent;
+}
 // code that makes number buttons work properly
 let num = document.querySelectorAll('.num');
 num.forEach(num => num.addEventListener('click', () => {
@@ -45,14 +50,15 @@ num.forEach(num => num.addEventListener('click', () => {
     output.textContent += num.textContent;
 }));
 
-// code that makes AC button work
-let clear = document.querySelector('.clear');
-clear.addEventListener('click', () => {
+function clearAll () {
+    clearFirst = true;
     nums = [];
     operators = [];
-    output.textContent = '';
-    clearFirst = false;
-});
+    output.textContent = 0;
+}
+// code that makes AC button work
+let clear = document.querySelector('.clear');
+clear.addEventListener('click', clearAll);
 
 // code that makes operation buttons work properly
 let ops = document.querySelectorAll('.op');
@@ -86,7 +92,9 @@ equal.addEventListener('click', () => {
 })
 // Function to solve numbers 
 function solve () {
-    output.textContent = operate(operators[0], nums[0], nums[1]).toFixed(10);
+    out = operate(operators[0], nums[0], nums[1]);
+    if (out % 1 != 0) out = out.toFixed(10);
+    output.textContent = parseFloat(out);
     operators.splice(0, 1);
     nums.splice(0, nums.length);
     clearFirst = true;
@@ -120,5 +128,14 @@ deci.addEventListener('click', () => {
     if (deciHolder == true) {
         output.textContent = `${output.textContent}.`;
         deciHolder = false;
+    }
+})
+
+window.addEventListener('keydown', e => {
+    let key = e.key
+    if (key >= 0) {
+        if (clearFirst == true) output.textContent = '';
+        clearFirst = false;
+        output.textContent += key;
     }
 })
