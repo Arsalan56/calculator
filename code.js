@@ -9,6 +9,7 @@ let deciHolder = true;
 // long/complex equations
 let clearFirst = true;
 
+let opsList = ['*', '/', '+', '-']
 // Select box that displays answer. Will be used multiple times
 // Throughout the project
 let output = document.querySelector('.output');
@@ -60,11 +61,8 @@ function clearAll () {
 let clear = document.querySelector('.clear');
 clear.addEventListener('click', clearAll);
 
-// code that makes operation buttons work properly
-let ops = document.querySelectorAll('.op');
-ops.forEach(op => op.addEventListener('click', () => {
+function opsFunc (oper) {
     deciHolder = true;
-    operators.push(op.textContent)
     nums.push(parseFloat(output.textContent));
     output.textContent = '';
     if (nums.length >= 2) {
@@ -77,6 +75,12 @@ ops.forEach(op => op.addEventListener('click', () => {
         nums.splice(0, nums.length);
         operators.splice(0, operators.length);
     }
+}
+// code that makes operation buttons work properly
+let ops = document.querySelectorAll('.op');
+ops.forEach(op => op.addEventListener('click', () => {
+    operators.push(op.textContent);
+    opsFunc(op);
 }))
 
 // code that makes equal sign work properly
@@ -137,5 +141,11 @@ window.addEventListener('keydown', e => {
         if (clearFirst == true) output.textContent = '';
         clearFirst = false;
         output.textContent += key;
+    } else if (key == 'Backspace') {
+        clearAll();
+    } else if (opsList.indexOf(key) >= 0) {
+        operators.push(opsList[opsList.indexOf(key)]);
+        opsFunc(opsList.indexOf(key));
     }
+    
 })
