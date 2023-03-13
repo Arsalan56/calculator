@@ -35,11 +35,6 @@ const operate = (op, a, b) => {
     }
 }
 
-const numFunc = () => {
-    if (clearFirst == true) output.textContent = '';
-    clearFirst = false;
-    output.textContent += num.textContent;
-}
 // code that makes number buttons work properly
 let num = document.querySelectorAll('.num');
 num.forEach(num => num.addEventListener('click', () => {
@@ -148,6 +143,7 @@ window.addEventListener('keydown', e => {
     } else if (key == '.') {
         let out = [...output.textContent];
         if (out.indexOf('.') < 0) {
+            clearFirst = false;
             output.textContent = `${output.textContent}.`;
         }
     }
